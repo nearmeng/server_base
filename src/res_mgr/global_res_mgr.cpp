@@ -4,6 +4,7 @@
 
 #include "config/base_config.h"
 
+extern int tolua_res_base_open (lua_State* tolua_S);
 
 CGlobalResMgr* CGlobalResMgr::ms_Instance = NULL;
 
@@ -38,6 +39,7 @@ BOOL CGlobalResMgr::init(int32_t nResMode, int32_t nShmType, int32_t nResShmType
     nRetCode = m_LuaScript.init();
     LOG_PROCESS_ERROR(nRetCode);
 
+    vFuncs.push_back(tolua_res_base_open);
 	for (int32_t i = 0; i < vFuncs.size(); i++)
 	{
 		vFuncs[i](m_LuaScript.get_lua_state());
