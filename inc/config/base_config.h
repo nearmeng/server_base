@@ -5,43 +5,80 @@
 
 struct BASE_CONFIG
 { 
-    BOOL bUseTconnd = FALSE;
+    BASE_CONFIG() 
+    {
+        bUseTconnd = FALSE;
 
-    BOOL bUseRouter = FALSE;
-	int32_t nRouterServerType = 0;
+        bUseRouter = FALSE;
+	    nRouterServerType = 0;
 
-    BOOL bUseConn = FALSE;
-	int32_t nConnServerType = 0;
+        bUseConn = FALSE;
+	    nConnServerType = 0;
 
-    BOOL bUseDBProxy = FALSE;
-	int32_t nDBProxyServerType = 0;
+        bUseDBProxy = FALSE;
+	    nDBProxyServerType = 0;
 
-	int32_t nInitShmSize = 100;
-	int32_t nInitBtCtxCount = 10;
-	int32_t nInitBtEventCount = 10;
-	int32_t nInitBtGlobalEventListCount = 10;
-	int32_t nInitTimerPoolCount = 10;
-    int32_t nInitDefaultClientSessionCount = 10;
+	    nInitShmSize = 100;
+    	nInitBtCtxCount = 10;
+    	nInitBtEventCount = 10;
+	    nInitBtGlobalEventListCount = 10;
+    	nInitTimerPoolCount = 10;
+        nInitDefaultClientSessionCount = 10;
 
-	int32_t nServerStopTimeout = 10 * 1000;
-	int32_t nServerEndWaitTimeout = 10 * 1000;
+	    nServerStopTimeout = 10 * 1000;
+	    nServerEndWaitTimeout = 10 * 1000;
 
-    int32_t nClientPingTimeout = 5 * 1000;
+        nClientPingTimeout = 5 * 1000;
 
-    int32_t nResMode = 0;
+        nResMode = 0;
+    
+        szScriptPath[0] = '\0';
+        szResPath[0] = '\0';
+
+        DumpConfig.bIsMiniDump = FALSE;
+        DumpConfig.nDumpInterval = 60 * 1000;
+
+        nCommonCoroCount = 50;
+        nCoroWaitTimeInterval = 5 * 1000;
+    };
+
+    BOOL bUseTconnd;
+
+    BOOL bUseRouter;
+	int32_t nRouterServerType;
+
+    BOOL bUseConn;
+	int32_t nConnServerType;
+
+    BOOL bUseDBProxy;
+	int32_t nDBProxyServerType;
+
+	int32_t nInitShmSize;
+	int32_t nInitBtCtxCount;
+	int32_t nInitBtEventCount;
+	int32_t nInitBtGlobalEventListCount;
+	int32_t nInitTimerPoolCount;
+    int32_t nInitDefaultClientSessionCount;
+
+	int32_t nServerStopTimeout;
+	int32_t nServerEndWaitTimeout;
+
+    int32_t nClientPingTimeout;
+
+    int32_t nResMode;
     
     char    szScriptPath[64];
     char    szResPath[64];
 
     struct DUMP_CONFIG
     {
-        BOOL bIsMiniDump = FALSE;
-        int32_t nDumpInterval = 60 * 1000;
+        BOOL bIsMiniDump;
+        int32_t nDumpInterval;
     };
     DUMP_CONFIG DumpConfig;
 
-    int32_t nCommonCoroCount = 50;
-    int32_t nCoroWaitTimeInterval = 5 * 1000;
+    int32_t nCommonCoroCount;
+    int32_t nCoroWaitTimeInterval;
 };
 
 extern BASE_CONFIG g_BaseConfig;
