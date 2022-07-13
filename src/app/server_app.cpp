@@ -29,6 +29,9 @@
 extern LUA_FUNC g_ServerBasePackageList[];
 extern LUA_FUNC g_ServerBaseLuaFunc[];
 
+extern int tolua_base_config_open(lua_State* tolua_S);
+extern int tolua_base_enum_open(lua_State* tolua_S);
+
 CMGApp* CMGApp::ms_Instance = NULL;
 
 class DBProxyCliInit : public IInitInterface
@@ -163,6 +166,8 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
 	}
 
 	//server config
+    ms_Instance->m_Config.vToluaFunc.push_back(tolua_base_config_open);
+    ms_Instance->m_Config.vToluaFunc.push_back(tolua_base_enum_open);
 	nRetCode = load_global_server_config(&g_BaseConfig, sizeof(g_BaseConfig), "BASE_CONFIG",
 		ms_Instance->m_stAppCtx.pszConfFile, "base_config", ms_Instance->m_Config.vToluaFunc);
 	LOG_PROCESS_ERROR(nRetCode);

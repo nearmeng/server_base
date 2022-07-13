@@ -1,0 +1,3 @@
+$hfile "../../inc/define/bt_def.h"
+$hfile "../../inc/define/conn_def.h"
+$hfile "../../inc/define/server_def.h"
