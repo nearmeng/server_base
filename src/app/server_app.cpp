@@ -17,9 +17,11 @@
 #include "coroutine/coro_stackless.h"
 #include "config/base_config.h"
 #include "config/global_config.h"
-#include "define/server_base_shm_def.h"
+
 #include "define/timer_def.h"
 #include "define/server_def.h"
+#include "define/server_base_guid_def.h"
+#include "define/server_base_shm_def.h"
 
 #include "conn_message.h"
 
@@ -188,7 +190,7 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
 	LOG_PROCESS_ERROR(nRetCode);
 
 	//timer
-	nRetCode = CTimeMgr::instance().init(stdTimeMgr, stdTimerPool, g_BaseConfig.nInitTimerPoolCount, bResume);
+	nRetCode = CTimeMgr::instance().init(stdTimeMgr, stdTimerPool, sbgtTimer, g_BaseConfig.nInitTimerPoolCount, bResume);
 	LOG_PROCESS_ERROR(nRetCode);
 
 	//frame
