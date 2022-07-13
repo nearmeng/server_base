@@ -4,6 +4,7 @@
 #define MAX_COMPONENT_COUNT (128)
 
 #include "server_module.h"
+#include "app/server_app.h"
 
 #define MG_REGISTER_COMPONENT_MODULE(__module_class__, __owner_type__, __component_type__, ...)         \
     class __module_class__##_auto_register                                                              \

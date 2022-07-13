@@ -4,43 +4,44 @@
 // tolua_begin
 
 struct BASE_CONFIG
-{
-    BOOL bUseTconnd;
-	int32_t nConnServerType;
+{ 
+    BOOL bUseTconnd = FALSE;
 
-    BOOL bUseRouter;
-    BOOL bUseConn;
-    BOOL bUseDBProxy;
-	
-	int32_t nRouterServerType;
-	int32_t nDBProxyServerType;
+    BOOL bUseRouter = FALSE;
+	int32_t nRouterServerType = 0;
 
-	int32_t nInitShmSize;
-	int32_t nInitBtCtxCount;
-	int32_t nInitBtEventCount;
-	int32_t nInitBtGlobalEventListCount;
-	int32_t nInitTimerPoolCount;
-    int32_t nInitDefaultClientSessionCount;
+    BOOL bUseConn = FALSE;
+	int32_t nConnServerType = 0;
 
-	int32_t nServerStopTimeout;
-	int32_t nServerEndWaitTimeout;
+    BOOL bUseDBProxy = FALSE;
+	int32_t nDBProxyServerType = 0;
 
-    int32_t nClientPingTimeout;
+	int32_t nInitShmSize = 100;
+	int32_t nInitBtCtxCount = 10;
+	int32_t nInitBtEventCount = 10;
+	int32_t nInitBtGlobalEventListCount = 10;
+	int32_t nInitTimerPoolCount = 10;
+    int32_t nInitDefaultClientSessionCount = 10;
 
-    int32_t nResMode;
+	int32_t nServerStopTimeout = 10 * 1000;
+	int32_t nServerEndWaitTimeout = 10 * 1000;
+
+    int32_t nClientPingTimeout = 5 * 1000;
+
+    int32_t nResMode = 0;
     
     char    szScriptPath[64];
     char    szResPath[64];
 
     struct DUMP_CONFIG
     {
-        BOOL bIsMiniDump;
-        int32_t nDumpInterval;
+        BOOL bIsMiniDump = FALSE;
+        int32_t nDumpInterval = 60 * 1000;
     };
     DUMP_CONFIG DumpConfig;
 
-    int32_t nCommonCoroCount;
-    int32_t nCoroWaitTimeInterval;
+    int32_t nCommonCoroCount = 50;
+    int32_t nCoroWaitTimeInterval = 5 * 1000;
 };
 
 extern BASE_CONFIG g_BaseConfig;

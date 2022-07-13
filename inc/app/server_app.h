@@ -41,6 +41,12 @@ struct MG_CONFIG
         pControlPreProc = NULL;
         pControlProc = NULL;
         pControlHelp = NULL;
+
+        pMsgFunc = NULL;
+        m_pConfigData = NULL;
+        m_nConfigDataSize = 0;
+        m_pcszConfigClassName = NULL;
+        m_pcszLuaObjName = NULL;
     }
 
     //func 
