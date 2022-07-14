@@ -59,6 +59,7 @@ public:
 private:
 	static DB_PROXY_CLIENT_MSG_CALLBACK m_pCallback;
 };
+DB_PROXY_CLIENT_MSG_CALLBACK DBProxyCliInit::m_pCallback;
 
 BOOL CMGApp::_init_tlog(void)
 {
