@@ -1,0 +1,3 @@
+build/
+lib/
+src/script/tolua_*.cpp

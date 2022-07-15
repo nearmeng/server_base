@@ -149,7 +149,7 @@ EVENT_INFO* CEventMgr::find_event(int32_t nEventID)
 int32_t CEventMgr::get_event_owner(int32_t nEventType)
 {
 	int32_t nRetCode = 0;
-	LOG_PROCESS_ERROR(nEventType > evtInvalid && nEventType < evtTotal);
+	LOG_PROCESS_ERROR(nEventType > 0 && nEventType < MAX_EVENT_TYPE_COUNT);
 
 	return ms_EventDefList[nEventType].nOwnerType;
 Exit0:
@@ -158,7 +158,7 @@ Exit0:
 	
 int32_t CEventMgr::get_event_start_type(int32_t nEventType)
 {
-	LOG_PROCESS_ERROR(nEventType > evtInvalid && nEventType < evtTotal);
+	LOG_PROCESS_ERROR(nEventType > 0 && nEventType < MAX_EVENT_TYPE_COUNT);
 
 	return ms_EventDefList[nEventType].nStartEventType;
 Exit0:
@@ -167,7 +167,7 @@ Exit0:
 
 int32_t CEventMgr::get_event_end_type(int32_t nEventType)
 {
-	LOG_PROCESS_ERROR(nEventType > evtInvalid && nEventType < evtTotal);
+	LOG_PROCESS_ERROR(nEventType > 0 && nEventType < MAX_EVENT_TYPE_COUNT);
 
 	return ms_EventDefList[nEventType].nEndEventType;
 Exit0:
@@ -180,7 +180,7 @@ BOOL CEventMgr::register_event_def(int32_t nEventType, const char* pcszEventName
 	int32_t nRetCode = 0;
 	
 	LOG_PROCESS_ERROR(pcszEventName);
-	LOG_PROCESS_ERROR(nEventType > evtInvalid && nEventType < evtTotal);
+	LOG_PROCESS_ERROR(nEventType > 0 && nEventType < MAX_EVENT_TYPE_COUNT);
 
 	ms_EventDefList[nEventType].nEventType = nEventType;
 	ms_EventDefList[nEventType].nOwnerType = nOwnerType;
@@ -524,7 +524,7 @@ int32_t CGlobalEventListMgr::trigger_global_event(int32_t nEventType, int32_t nE
 	uint64_t qwEventListID = 0;
 	CBTEventList* pEventList = NULL;
 
-	LOG_PROCESS_ERROR(nEventType > evtInvalid && nEventType < evtTotal);
+	LOG_PROCESS_ERROR(nEventType > 0 && nEventType < MAX_EVENT_TYPE_COUNT);
 
 	nStartType = CEventMgr::instance().get_event_start_type(nEventType);
 	qwEventListID = MAKE_EVENT_LIST_ID(nStartType, nEventTemplateID);

@@ -35,7 +35,7 @@ private:
 private:
 
 	CShmObjectPool<EVENT_INFO, int32_t>  m_EventPool;
-	EVENT_DEF ms_EventDefList[evtTotal];
+	EVENT_DEF ms_EventDefList[MAX_EVENT_TYPE_COUNT];
 	static CEventMgr ms_Instance;
 };
 

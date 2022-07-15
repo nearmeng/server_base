@@ -44,9 +44,7 @@ struct MG_CONFIG
 
         pMsgFunc = NULL;
         m_pConfigData = NULL;
-        m_nConfigDataSize = 0;
         m_pcszConfigClassName = NULL;
-        m_pcszLuaObjName = NULL;
     }
 
     //func 
@@ -66,9 +64,7 @@ struct MG_CONFIG
 	MSGID_TO_STR			pMsgFunc;
 
 	void*					m_pConfigData;
-	int32_t					m_nConfigDataSize;
 	const char*				m_pcszConfigClassName;
-	const char*				m_pcszLuaObjName;
 };
 
 class CMGApp

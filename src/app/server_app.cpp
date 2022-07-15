@@ -171,12 +171,12 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
 	//server config
     ms_Instance->m_Config.vToluaFunc.push_back(tolua_base_config_open);
     ms_Instance->m_Config.vToluaFunc.push_back(tolua_base_enum_open);
-	nRetCode = load_global_server_config(&g_BaseConfig, sizeof(g_BaseConfig), "BASE_CONFIG",
-		ms_Instance->m_stAppCtx.pszConfFile, "base_config", ms_Instance->m_Config.vToluaFunc);
+	nRetCode = load_global_server_config(&g_BaseConfig,"BASE_CONFIG", ms_Instance->m_stAppCtx.pszConfFile, 
+					"base_config", ms_Instance->m_Config.vToluaFunc);
 	LOG_PROCESS_ERROR(nRetCode);
 	
-	nRetCode = load_global_server_config(ms_Instance->m_Config.m_pConfigData, ms_Instance->m_Config.m_nConfigDataSize,
-		ms_Instance->m_Config.m_pcszConfigClassName, ms_Instance->m_stAppCtx.pszConfFile, ms_Instance->m_Config.m_pcszLuaObjName, ms_Instance->m_Config.vToluaFunc);
+	nRetCode = load_global_server_config(ms_Instance->m_Config.m_pConfigData, ms_Instance->m_Config.m_pcszConfigClassName, 
+			ms_Instance->m_stAppCtx.pszConfFile, g_BaseConfig.szServerConfigName, ms_Instance->m_Config.vToluaFunc);
 	LOG_PROCESS_ERROR(nRetCode);
 
     nShmSize = g_BaseConfig.nInitShmSize;
@@ -421,12 +421,12 @@ int32_t CMGApp::_app_reload(TAPPCTX* pCtx, void* pArg)
 	LOG_PROCESS_ERROR(nCurrTime - ms_Instance->m_dwLastReloadTime >= MAX_SERVER_RELOAD_INTERVAL / 1000);
 
     //global config
-	nRetCode = load_global_server_config(&g_BaseConfig, sizeof(g_BaseConfig), "BASE_CONFIG",
-		ms_Instance->m_stAppCtx.pszConfFile, "base_config", ms_Instance->m_Config.vToluaFunc);
+	nRetCode = load_global_server_config(&g_BaseConfig,"BASE_CONFIG", ms_Instance->m_stAppCtx.pszConfFile, 
+					"base_config", ms_Instance->m_Config.vToluaFunc);
 	LOG_PROCESS_ERROR(nRetCode);
 	
-	nRetCode = load_global_server_config(ms_Instance->m_Config.m_pConfigData, ms_Instance->m_Config.m_nConfigDataSize,
-		ms_Instance->m_Config.m_pcszConfigClassName, ms_Instance->m_stAppCtx.pszConfFile, ms_Instance->m_Config.m_pcszLuaObjName, ms_Instance->m_Config.vToluaFunc);
+	nRetCode = load_global_server_config(ms_Instance->m_Config.m_pConfigData, ms_Instance->m_Config.m_pcszConfigClassName, 
+			ms_Instance->m_stAppCtx.pszConfFile, g_BaseConfig.szServerConfigName, ms_Instance->m_Config.vToluaFunc);
 	LOG_PROCESS_ERROR(nRetCode);
 
     //res

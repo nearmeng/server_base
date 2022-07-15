@@ -2,6 +2,7 @@
 #define _EVNET_DEF_H_
 
 #define MAX_EVENT_COUNT		(32)
+#define MAX_EVENT_TYPE_COUNT (500)
 #define MAX_EVENT_PER_OWNER	(64)
 #define MAX_EVENT_TRIGGER_COUNT	(256)
 #define EVENT_NAME_LEN		(128)
@@ -24,33 +25,6 @@ struct EVENT_INFO;
 typedef void(*EVENT_CALLBACK)(EVENT_INFO* pEvent, EVENT_PARAM& stEventParam);
 
 //tolua_begin
-
-enum EVENT_TYPE
-{
-	evtInvalid,
-
-	evtStaticBegin,
-
-	evtStaticRoleBegin = evtStaticBegin,
-	
-	evtRoleSyncData,
-
-	evtStaticRoleEnd,
-	
-	evtStaticEnd,
-
-	evtDynamicBegin,
-
-	evtDynamicRoleBegin,
-
-	evtRoleKillNpc,
-
-	evtDynamicRoleEnd,
-
-	evtDynamicEnd,
-
-	evtTotal
-};
 
 //事件基础信息
 struct EVENT_INFO

@@ -79,6 +79,8 @@ struct BASE_CONFIG
 
     int32_t nCommonCoroCount;
     int32_t nCoroWaitTimeInterval;
+
+	char szServerConfigName[64];
 };
 
 extern BASE_CONFIG g_BaseConfig;
