@@ -1,5 +1,5 @@
 #ifndef _EVENT_DEF_H_
-#define _EVNET_DEF_H_
+#define _EVENT_DEF_H_
 
 #define MAX_EVENT_COUNT		(32)
 #define MAX_EVENT_TYPE_COUNT (500)
