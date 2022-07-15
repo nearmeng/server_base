@@ -14,7 +14,7 @@ fetch_content(cs_proto_common https://github.com/nearmeng/cs_proto_common.git ma
 
 init_project()
 
-pre_toluapp(${BASE_DIR}/src/script)
+pre_toluapp(src/script)
 
 pre_project(server_base STATIC)
 
