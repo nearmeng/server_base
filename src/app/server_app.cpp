@@ -160,7 +160,7 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
 	LOG_PROCESS_ERROR(nRetCode);
 
 	CScriptMgr::instance().add_include_path("../script");
-	CScriptMgr::instance().add_include_path("../server_config");
+	CScriptMgr::instance().add_include_path("../config");
 	
 	for(int32_t i = 0; g_ServerBasePackageList[i].pFunc; i++)
 	{
@@ -208,24 +208,27 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
 	}
 	
 	//router client or tbus 
-	if (!g_BaseConfig.bUseRouter)
-	{
-		nRetCode = tbus_system_init(pCtx->iId, pCtx->iBus, _default_msg_recv_proc, bResume);
-		LOG_PROCESS_ERROR(nRetCode);
-	}
-	else
+	if (g_BaseConfig.bUseRouter)
 	{
 		nRetCode = CRouterClient::instance().init(pCtx->iBus, pCtx->iId, 
 			g_BaseConfig.nConnServerType, g_BaseConfig.nRouterServerType, _default_msg_recv_proc, bResume);
 		LOG_PROCESS_ERROR(nRetCode);
 	}
+	else
+	{
+		nRetCode = tbus_system_init(pCtx->iId, pCtx->iBus, _default_msg_recv_proc, bResume);
+		LOG_PROCESS_ERROR(nRetCode);
+	}
 	
 	//event
-	nRetCode = CEventMgr::instance().init(bResume);
-	LOG_PROCESS_ERROR(nRetCode);
+	if (g_BaseConfig.bEventEnable)
+	{
+		nRetCode = CEventMgr::instance().init(bResume);
+		LOG_PROCESS_ERROR(nRetCode);
 
-	nRetCode = CGlobalEventListMgr::instance().init(bResume);
-	LOG_PROCESS_ERROR(nRetCode);
+		nRetCode = CGlobalEventListMgr::instance().init(bResume);
+		LOG_PROCESS_ERROR(nRetCode);
+	}
 
 	if (g_BaseConfig.bUseTconnd)
 	{
@@ -234,7 +237,7 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
 	}
 
     //res
-    if (g_BaseConfig.bUseRouter)
+    if (g_BaseConfig.bResEnable)
     {
         nRetCode = CGlobalResMgr::instance().init(nResMode, stdGlobalResMgr, stdResBegin, stdResEnd, 
 			ms_Instance->m_Config.vToluaFunc, bResume);
@@ -242,9 +245,12 @@ int32_t CMGApp::_app_init(TAPPCTX* pCtx, void* pArg)
     }
 
     //coro
-    nRetCode = CGlobalStacklessMgr::instance().init(pCtx->iId, stdStacklessGlobalMgr, stdStacklessCoreBegin, 
-		stdStacklessCoreEnd, g_BaseConfig.nCommonCoroCount, bResume);
-    LOG_PROCESS_ERROR(nRetCode);
+	if (g_BaseConfig.bCoroEnable)
+	{
+		nRetCode = CGlobalStacklessMgr::instance().init(pCtx->iId, stdStacklessGlobalMgr, stdStacklessCoreBegin,
+			stdStacklessCoreEnd, g_BaseConfig.nCommonCoroCount, bResume);
+		LOG_PROCESS_ERROR(nRetCode);
+	}
 
     //module cont
     for (int32_t nIndex = 0; nIndex < ms_Instance->m_ModuleCont.get_module_count(); nIndex++)
@@ -335,8 +341,11 @@ int32_t CMGApp::_app_fini(TAPPCTX* pCtx, void* pArg)
     }
 
     //coro
-    nRetCode = CGlobalStacklessMgr::instance().uninit();
-    LOG_CHECK_ERROR(nRetCode);
+	if (g_BaseConfig.bCoroEnable)
+	{
+		nRetCode = CGlobalStacklessMgr::instance().uninit();
+		LOG_CHECK_ERROR(nRetCode);
+	}
 
 	if (g_BaseConfig.bUseTconnd)
 		tconnapi_fini();
@@ -350,29 +359,32 @@ int32_t CMGApp::_app_fini(TAPPCTX* pCtx, void* pArg)
         LOG_CHECK_ERROR(nRetCode);
     }
     
-    if (g_BaseConfig.bUseRouter)
+    if (g_BaseConfig.bResEnable)
     {
         nRetCode = CGlobalResMgr::instance().uninit();
         LOG_CHECK_ERROR(nRetCode);
     }
 
-	nRetCode = CGlobalEventListMgr::instance().uninit();
-	LOG_CHECK_ERROR(nRetCode);
+	if (g_BaseConfig.bEventEnable)
+	{
+		nRetCode = CGlobalEventListMgr::instance().uninit();
+		LOG_CHECK_ERROR(nRetCode);
 
-	nRetCode = CEventMgr::instance().uninit();
-	LOG_CHECK_ERROR(nRetCode);
+		nRetCode = CEventMgr::instance().uninit();
+		LOG_CHECK_ERROR(nRetCode);
+	}
 
 	nRetCode = CScriptMgr::instance().uninit();
 	LOG_CHECK_ERROR(nRetCode);
 
-	if (!g_BaseConfig.bUseRouter)
+	if (g_BaseConfig.bUseRouter)
 	{
-		nRetCode = tbus_system_uninit();
+		nRetCode = CRouterClient::instance().uninit();
 		LOG_CHECK_ERROR(nRetCode);
 	}
 	else
 	{
-		nRetCode = CRouterClient::instance().uninit();
+		nRetCode = tbus_system_uninit();
 		LOG_CHECK_ERROR(nRetCode);
 	}
 
@@ -391,11 +403,10 @@ int32_t CMGApp::_app_proc(TAPPCTX* pCtx, void* pArg)
 {
 	int32_t nRetCode = 0;
 
-    //tbus
-	if (!g_BaseConfig.bUseRouter)
-		nRetCode = tbus_recv_data();
-	else
+	if (g_BaseConfig.bUseRouter)
 		nRetCode = CRouterClient::instance().mainloop();
+	else
+		nRetCode = tbus_recv_data();
 
     //timer
 	CTimeMgr::instance().mainloop();

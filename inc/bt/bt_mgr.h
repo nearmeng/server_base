@@ -11,7 +11,7 @@ public:
 	CBTMgr() {};
 	virtual ~CBTMgr() {};
 
-	BOOL init(REG_BT_OWNER_FUNC pFunc, BOOL bResume);
+	BOOL init(REG_BT_OWNER_FUNC pFunc, int32_t nInitBtCtxCount, BOOL bResume);
 	BOOL uninit(void);
 	inline static CBTMgr& instance(void);
 

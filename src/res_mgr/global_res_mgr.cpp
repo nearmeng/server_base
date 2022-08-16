@@ -4,6 +4,8 @@
 
 #include "config/base_config.h"
 
+#include "lua/embed_source.h"
+
 extern int tolua_res_base_open (lua_State* tolua_S);
 
 CGlobalResMgr* CGlobalResMgr::ms_Instance = NULL;
@@ -45,9 +47,7 @@ BOOL CGlobalResMgr::init(int32_t nResMode, int32_t nShmType, int32_t nResShmType
 		vFuncs[i](m_LuaScript.get_lua_state());
 	}
 
-    snprintf(szScriptPath, RES_NAME_LEN, "%s/%s", g_BaseConfig.szScriptPath, "read_res/main.lua");
-
-    nRetCode = m_LuaScript.load_from_file(szScriptPath, FALSE);
+    nRetCode = m_LuaScript.load_from_buffer("read_res.lua", pcszReadResLuaSource, strlen(pcszReadResLuaSource));
     LOG_PROCESS_ERROR(nRetCode);
     
     if (!bResume)

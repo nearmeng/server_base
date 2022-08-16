@@ -7,6 +7,11 @@ struct BASE_CONFIG
 { 
     BASE_CONFIG() 
     {
+	    nInitShmSize = 10 * 1024 * 1024;
+    	nInitTimerPoolCount = 10;
+	    nServerStopTimeout = 10 * 1000;
+		strncpy(szServerConfigName, "server_config", sizeof(szServerConfigName));
+
         bUseTconnd = FALSE;
 
         bUseRouter = FALSE;
@@ -18,29 +23,26 @@ struct BASE_CONFIG
         bUseDBProxy = FALSE;
 	    nDBProxyServerType = 0;
 
-	    nInitShmSize = 100;
-    	nInitBtCtxCount = 10;
-    	nInitBtEventCount = 10;
-	    nInitBtGlobalEventListCount = 10;
-    	nInitTimerPoolCount = 10;
-        nInitDefaultClientSessionCount = 10;
+		bEventEnable = FALSE;
+    	nInitBtEventCount = 0;
+	    nInitBtGlobalEventListCount = 0;
 
-	    nServerStopTimeout = 10 * 1000;
-	    nServerEndWaitTimeout = 10 * 1000;
-
-        nClientPingTimeout = 5 * 1000;
-
+		bResEnable = FALSE;
         nResMode = 0;
-    
-        szScriptPath[0] = '\0';
         szResPath[0] = '\0';
 
         DumpConfig.bIsMiniDump = FALSE;
         DumpConfig.nDumpInterval = 60 * 1000;
 
+		bCoroEnable = FALSE;
         nCommonCoroCount = 50;
-        nCoroWaitTimeInterval = 5 * 1000;
     };
+
+	int32_t nInitShmSize;
+	int32_t nInitTimerPoolCount;
+	char szServerConfigName[64];
+	
+	int32_t nServerStopTimeout;
 
     BOOL bUseTconnd;
 
@@ -53,21 +55,12 @@ struct BASE_CONFIG
     BOOL bUseDBProxy;
 	int32_t nDBProxyServerType;
 
-	int32_t nInitShmSize;
-	int32_t nInitBtCtxCount;
+	BOOL bEventEnable;
 	int32_t nInitBtEventCount;
 	int32_t nInitBtGlobalEventListCount;
-	int32_t nInitTimerPoolCount;
-    int32_t nInitDefaultClientSessionCount;
 
-	int32_t nServerStopTimeout;
-	int32_t nServerEndWaitTimeout;
-
-    int32_t nClientPingTimeout;
-
+	BOOL bResEnable;
     int32_t nResMode;
-    
-    char    szScriptPath[64];
     char    szResPath[64];
 
     struct DUMP_CONFIG
@@ -77,10 +70,8 @@ struct BASE_CONFIG
     };
     DUMP_CONFIG DumpConfig;
 
+	BOOL bCoroEnable;
     int32_t nCommonCoroCount;
-    int32_t nCoroWaitTimeInterval;
-
-	char szServerConfigName[64];
 };
 
 extern BASE_CONFIG g_BaseConfig;
