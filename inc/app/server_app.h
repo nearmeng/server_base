@@ -6,6 +6,8 @@
 #include "module/server_module.h"
 #include "module/server_component.h"
 
+#define ALL_SERVER_TYPE		(0)
+
 enum MSG_DIRECTION_TYPE
 {
 	mdtInvalid,

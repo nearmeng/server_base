@@ -612,7 +612,7 @@ void CMGApp::fini()
 BOOL CMGApp::set_user_msg_handler(int32_t nServerType, USER_MSG_HANDLER pMsgHandler)
 {
 	LOG_PROCESS_ERROR(pMsgHandler);
-	LOG_PROCESS_ERROR_DETAIL(nServerType > 0 && nServerType < MAX_INTERACT_SERVER_COUNT, "invalid server type %d", nServerType);
+	LOG_PROCESS_ERROR_DETAIL(nServerType >= 0 && nServerType < MAX_INTERACT_SERVER_COUNT, "invalid server type %d", nServerType);
 
 	m_UserMsgHandler[nServerType] = pMsgHandler;
 
